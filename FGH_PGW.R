@@ -55,7 +55,7 @@ loglik_pgwC = function(par){
 }
 
 # Optimisation
-initC <- c(log(3),log(MLEEWG[c(1,2,3)]),MLEEWG[-c(1,2,3)])
+initC <- c(log(3),log(MLEPGW[c(1,2,3)]),MLEPGW[-c(1,2,3)])
 OPTC1 = nlminb(initC,loglik_pgwC,control=list(iter.max=10000))
 OPTC2 = optim(initC,loglik_pgwC,control=list(maxit=10000))
 
@@ -93,7 +93,7 @@ loglik_pgwF = function(par){
 }
 
 # Optimisation step
-initE <- c(log(10),log(6.5),log(MLEEWG[c(1,2,3)]),MLEEWG[-c(1,2,3)])
+initE <- c(log(10),log(6.5),log(MLEPGW[c(1,2,3)]),MLEPGW[-c(1,2,3)])
 OPTE1 = nlminb(initE,loglik_pgwF,control=list(iter.max=10000))
 OPTE2 = optim(initE,loglik_pgwF,control=list(maxit=10000))
 
@@ -124,17 +124,17 @@ beta2 <- c(0.05,0.2,0.25)
 ae <- 1.75; be <- 0.6; ce <- 2.5;
 
 # Comparison with the MLEs
-MLES <- cbind(c(NA,NA,MLEEWG), c(NA,MLEC), MLEE, c(10,6.5,ae,be,ce,beta1,beta2))
+MLES <- cbind(c(NA,NA,MLEPGW), c(NA,MLEC), MLEE, c(10,6.5,ae,be,ce,beta1,beta2))
 colnames(MLES) <- c("M1", "M2", "M3", "True")
 kable(MLES, digits = 2)
 
 # Comparison using AIC
-AICS <- cbind( c("M1", "M2", "M3"), round(c(AICEWG, AICC, AICE),2))
+AICS <- cbind( c("M1", "M2", "M3"), round(c(AICPGW, AICC, AICE),2))
 kable(AICS, col.names = c("Model", "AIC"))
 
 # Comparison of the fitted excess baseline hazards
 true.haz <- Vectorize(function(t) hew(t,ae,be,ce))
-fit1 <- Vectorize(function(t) hpgw(t, MLEEWG[1], MLEEWG[2], MLEEWG[3]))
+fit1 <- Vectorize(function(t) hpgw(t, MLEPGW[1], MLEPGW[2], MLEPGW[3]))
 fit2 <- Vectorize(function(t) hpgw(t, MLEC[2], MLEC[3], MLEC[4]))
 fit3 <- Vectorize(function(t) hpgw(t, MLEE[3], MLEE[4], MLEE[5]))
 
